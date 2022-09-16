@@ -2,91 +2,89 @@
 <html lang="en">
 
 <head>
-   <meta charset="UTF-8">
-   <meta http-equiv="X-UA-Compatible" content="IE=edge">
-   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
 </head>
 
 <body>
-   <script>
-      score = {
-         computerplayer: 0,
-         humanplayer: 0
-      }
-      player1 = []
-      player2 = []
-      finalresult = []
-      function gaming() {
-         var cointoss = setInterval(coin, 1000)
-         toss = 0
-         function coin() {
-            coin_Face = ["head", "tail"]
-            console.log("Toss", toss + 1)
-            computer = coin_Face[Math.floor(Math.random() * coin_Face.length)]
-            human = coin_Face[Math.floor(Math.random() * coin_Face.length)]
-            player1.push(computer)
-            player2.push(human)
-            finalresult.push({ "round": Round1, "computer": computer, "human": human })
-            if (computer == "head") {
-               score.computerplayer += 1
-            }
-            if (human == "head") {
-               score.humanplayer += 1
-            }
-            // console.log("toss",toss+1)
-            console.log("computerplayer:", computer, "humanplayer:", human)
-            toss++
-            if (toss == 10) {
-               clearInterval(cointoss);
-               console.table(score)
-               if (score.computerplayer > score.humanplayer) {
-                  score_computerplayer=score.computerplayer-score.humanplayer
-                  console.table("computerplayer is the winner")
-                  console.log(`computerplayer is leading humanplayer by ${score_computerplayer}`)
-
-               }
-               else if (score.computerplayer < score.humanplayer){
-                score_humanplayer=score.humanplayer-score.computerplayer
-                  console.log("humanplayer is the winner")
-                  console.log(`humanplayer is leading computerplayer by ${score_humanplayer}`)
-
-               }
-               else {
-                  console.table("match is draw between computerplayer and humanplayer")
-
-               }
-               console.log("__________________________ROUND END______________________________")
-            }
-         }
-      }
-      Round1 = 0
-      var b = setInterval(function Round() {
-         if (Round1 == 4) {
-            clearInterval(b);
-            console.table(finalresult)
-            csvExceldata()
-           
+    <script>
+        score = {
+            computerPlayer: 0,
+            humanPlayer: 0
         }
-         else {
-            console.log("Round", Round1 + 1)
-            gaming()
-            Round1++
-            return Round
-         }
-      }(), 15000);
+        finalResult = []
+        function gaming() {
+            var coinToss = setInterval(coin, 1000)
+            toss = 0
 
-      function csvExceldata(){
-                competitor=""
-                competitor+="Round,computerplayer,humanplayer"
-                competitor+="\r\n"
-                result=0
-            for (i of finalresult) {
-               competitor += i.round + "," + i.computer + "," + i.human
-               competitor+="\r\n"
-        
+            
+            function coin() {
+                coin_Face = ["head", "tail"]
+                console.log("Toss", toss + 1)
+                computer = coin_Face[Math.floor(Math.random() * coin_Face.length)]
+                human = coin_Face[Math.floor(Math.random() * coin_Face.length)]
+                finalResult.push({ "round": Round1, "computer": computer, "human": human })
+                if (computer === "head") {
+                    score.computerPlayer += 1
+                }
+                if (human === "head") {
+                    score.humanPlayer += 1
+                }
+                // console.log("toss",toss+1)
+                console.log("computerplayer:", computer, "humanplayer:", human)
+                toss++
+                if (toss === 10) {
+                    clearInterval(coinToss);
+                    console.table(score)
+                    if (score.computerPlayer > score.humanPlayer) {
+                        score_computerPlayer = score.computerPlayer - score.humanPlayer
+                        console.table("computerplayer is the winner")
+                        console.log(`computerplayer is leading humanplayer by ${score_computerPlayer}`)
+
+                    }
+                    else if (score.computerPlayer < score.humanPlayer) {
+                        score_humanPlayer = score.humanPlayer - score.computerPlayer
+                        console.log("humanplayer is the winner")
+                        console.log(`humanplayer is leading computerplayer by ${score_humanPlayer}`)
+
+                    }
+                    else {
+                        console.log("match is draw between computerplayer and humanplayer")
+
+                    }
+                    console.log("__________________________ROUND END______________________________")
+                }
             }
-         
+        }
+        Round1 = 0
+        var head_Tail_TossRound = setInterval(function Round() {
+            if (Round1 === 4) {
+                clearInterval(head_Tail_TossRound);
+                console.table(finalResult)
+                csvExceldata()
+
+            }
+            else {
+                console.log("Round", Round1 + 1)
+                gaming()
+                Round1++
+                return Round
+            }
+        }(), 15000);
+
+        function csvExceldata() {
+            competitor = ""
+            competitor += "Round,computerplayer,humanplayer"
+            competitor += "\r\n"
+            result = 0
+            for (point of finalResult) {
+                competitor += point.round + "," + point.computer + "," + point.human
+                competitor += "\r\n"
+
+            }
+
             let tempBlob = new Blob([competitor], { type: "text\csv" })
 
             //download url which is temporary
@@ -100,10 +98,10 @@
             window.URL.revokeObjectURL(tempURL)
             activation.remove()
 
-         }
+        }
 
 
-   </script>
+    </script>
 
 </body>
 
