@@ -15,11 +15,12 @@
             humanPlayer: 0
         }
         finalResult = []
+        winnerPERROUND=[]
         function gaming() {
             var coinToss = setInterval(coin, 1000)
             toss = 0
 
-            
+          //function to get head and tail for two player  
             function coin() {
                 coin_Face = ["head", "tail"]
                 console.log("Toss", toss + 1)
@@ -32,32 +33,39 @@
                 if (human === "head") {
                     score.humanPlayer += 1
                 }
-                // console.log("toss",toss+1)
+               
+
                 console.log("computerplayer:", computer, "humanplayer:", human)
                 toss++
+
                 if (toss === 10) {
                     clearInterval(coinToss);
                     console.table(score)
+                    //counting the head to see who is the winner
                     if (score.computerPlayer > score.humanPlayer) {
                         score_computerPlayer = score.computerPlayer - score.humanPlayer
-                        console.table("computerplayer is the winner")
+                        console.log("computerplayer is the winner")
                         console.log(`computerplayer is leading humanplayer by ${score_computerPlayer}`)
-
+                        win=(`computerplayer is leading humanplayer by ${score_computerPlayer}`)
+                        winnerPERROUND.push(win)
                     }
                     else if (score.computerPlayer < score.humanPlayer) {
                         score_humanPlayer = score.humanPlayer - score.computerPlayer
                         console.log("humanplayer is the winner")
                         console.log(`humanplayer is leading computerplayer by ${score_humanPlayer}`)
-
+                        win=(`humanplayer is leading computerplayer by ${score_humanPlayer}`)
+                        winnerPERROUND.push(win)
                     }
                     else {
                         console.log("match is draw between computerplayer and humanplayer")
-
+                        win=("match is draw between computerplayer and humanplayer")
+                        winnerPERROUND.push(win)
                     }
                     console.log("__________________________ROUND END______________________________")
                 }
             }
         }
+        //function to make the game to be played till the last round
         Round1 = 0
         var head_Tail_TossRound = setInterval(function Round() {
             if (Round1 === 4) {
@@ -73,16 +81,30 @@
                 return Round
             }
         }(), 15000);
-
+        
+        //csv blop function
         function csvExceldata() {
             competitor = ""
             competitor += "Round,computerplayer,humanplayer"
             competitor += "\r\n"
             result = 0
+            tossTIME=10-1
             for (point of finalResult) {
                 competitor += point.round + "," + point.computer + "," + point.human
                 competitor += "\r\n"
-
+             if(finalResult.indexOf(point)==tossTIME){
+                competitor+=(result+1)+" "+winnerPERROUND[result]
+                competitor+="\r\n"
+                result++
+                tossTIME=tossTIME+10
+                if(result==4){
+                    competitor+="MATCH FINAL WINNER"
+                    competitor+="\r\n"
+                    competitor+=winnerPERROUND[result-1]
+                    competitor+="\r\n"
+                }
+               
+             }
             }
 
             let tempBlob = new Blob([competitor], { type: "text\csv" })
